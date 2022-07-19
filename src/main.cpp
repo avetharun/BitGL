@@ -34,7 +34,7 @@ auto main() -> int
 
 		window.clear_colorbuffer({ 0, 0, 0 });
 
-		window.render_triangle_filled({{ { 0, 799 }, { 399, 0 }, { 799, 799 } }}, { 0, 255, 255 });
+		window.render_rect_filled({{{128,128},{128, 128}}}, {0,255,255});
 
 		window.draw();
 

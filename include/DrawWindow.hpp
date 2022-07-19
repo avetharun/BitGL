@@ -17,6 +17,7 @@
 
 #include "Color.hpp"
 #include "Point.hpp"
+#include "Rect.hpp"
 #include "Triangle.hpp"
 #include "Window.hpp"
 
@@ -38,7 +39,11 @@ namespace BitGL
 		auto clear_colorbuffer(ColorRGB const &color)                                           -> void;
 		auto render_point(Point2D const &position, ColorRGB const &color)                       -> void;
 		auto render_line(Point2D const &point_a, Point2D const &point_b, ColorRGB const &color) -> void;
-
+		auto render_linei(int x_0, int y_0, int x_1, int y_1, ColorRGB const &color) -> void;
+		
+		auto render_rect(Rect2D const& rect, ColorRGB const& color) -> void;
+		auto render_rect_filled(Rect2D const& rect, ColorRGB const& color) -> void;
+		
 		auto render_triangle(Triangle2D const &triangle, ColorRGB const &color) -> void;
 		auto render_triangle_filled(Triangle2D triangle, ColorRGB const &color) -> void;
 

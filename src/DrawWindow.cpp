@@ -76,12 +76,56 @@ namespace BitGL
 			}
 		}
 	}
+	auto DrawWindow::render_linei(int x_0, int y_0, int x_1, int y_1, ColorRGB const &color) -> void
+	{
+		auto d_x = std::abs(x_1 - x_0);
+		auto s_x = x_1 > x_0 ? 1 : -1;
+
+		auto d_y = -std::abs(y_1 - y_0);
+		auto s_y = y_1 > y_0 ? 1 : -1;
+
+		auto error = d_x + d_y;
+
+
+
+		while (true)
+		{
+			render_point({ x_0, y_0 }, color);
+
+			if (x_0 == x_1 && y_0 == y_1) { break; }
+
+			if (error * 2 >= d_y)
+			{
+				if (x_0 == x_1) { break; }
+				error += d_y;
+				x_0 += s_x;
+			}
+
+			if (error * 2 <= d_x)
+			{
+				if (y_0 == y_1) { break; }
+				error += d_x;
+				y_0 += s_y;
+			}
+		}
+	}
 
 	auto DrawWindow::render_triangle(Triangle2D const &triangle, ColorRGB const &color) -> void
 	{
 		render_line(triangle[Vec::x], triangle[Vec::y], color);
 		render_line(triangle[Vec::y], triangle[Vec::z], color);
 		render_line(triangle[Vec::z], triangle[Vec::x], color);
+	}
+	// renders clockwise, origin bottom left
+	auto DrawWindow::render_rect(Rect2D const& rect, ColorRGB const& color) -> void {
+		// bottom line (x, y, x+w, y)
+		render_linei(rect[0][0], rect[0][1], rect[0][0] + rect[1][0], rect[0][1], color);
+		// right line (x+w, y, x+w, y+h)
+		render_linei(rect[0][0] + rect[1][0], rect[0][1], rect[0][0]+rect[1][0], rect[0][1]+rect[1][1], color);
+		// top line (x, y+h, x+w, y+h)
+		render_linei(rect[0][0], rect[0][1]+rect[1][1], rect[0][0] + rect[1][0], rect[0][1]+rect[1][1], color);
+		// left line (x, y, x, y+h)
+		render_linei(rect[0][0], rect[0][1], rect[0][0], rect[0][1]+rect[1][1], color);
 	}
 	auto DrawWindow::render_triangle_filled(Triangle2D triangle, ColorRGB const &color) -> void
 	{
@@ -109,7 +153,9 @@ namespace BitGL
 			render_triangle_filled_flat_bottom({ triangle[0], triangle[1], divider_point }, color);
 		}
 	}
-
+	auto DrawWindow::render_rect_filled(Rect2D const& rect, ColorRGB const& color) -> void{
+		
+	};
 	auto DrawWindow::draw() -> void
 	{
 		SetBitmapBits(m_colorbuffer_bitmap, m_colorbuffer.size() * sizeof(decltype(m_colorbuffer)::value_type), m_colorbuffer.data());
