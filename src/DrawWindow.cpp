@@ -153,8 +153,14 @@ namespace BitGL
 			render_triangle_filled_flat_bottom({ triangle[0], triangle[1], divider_point }, color);
 		}
 	}
-	auto DrawWindow::render_rect_filled(Rect2D const& rect, ColorRGB const& color) -> void{
-		
+	// Implemented via drawing two triangles
+	auto DrawWindow::render_rect_filled(Rect2D rect, ColorRGB color) -> void{
+		// {{x,y},{x+w,y},{x+w,y+h}} = right side of rect
+		Triangle2D right = {{{rect[0][0],rect[0][1]},{rect[0][0]+rect[1][0],rect[0][1]},rect[0]+rect[1]}};
+		// {{x,y},{x,y+h},{x+w,y+h}} = left side of rect
+		Triangle2D left = {{{rect[0][0],rect[0][1]},{rect[0][0],rect[0][1] + rect[1][1]},rect[0]+rect[1]}};
+		render_triangle_filled(right, color);
+		render_triangle_filled(left, color);
 	};
 	auto DrawWindow::draw() -> void
 	{

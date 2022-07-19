@@ -33,8 +33,9 @@ auto main() -> int
 		printf("T: %f\tFPS: %f\n", delta_time, 1 / delta_time);
 
 		window.clear_colorbuffer({ 0, 0, 0 });
-
-		window.render_rect_filled({{{128,128},{128, 128}}}, {0,255,255});
+		unsigned char col = 128;
+		
+		window.render_rect_filled({{{128,128},{128, 128}}}, BitGL::ColorRGB{col,col,col});
 
 		window.draw();
 

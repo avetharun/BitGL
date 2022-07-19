@@ -42,8 +42,8 @@ namespace BitGL
 		auto render_linei(int x_0, int y_0, int x_1, int y_1, ColorRGB const &color) -> void;
 		
 		auto render_rect(Rect2D const& rect, ColorRGB const& color) -> void;
-		auto render_rect_filled(Rect2D const& rect, ColorRGB const& color) -> void;
-		
+		auto render_rect_filled(Rect2D rect, ColorRGB color) -> void;
+
 		auto render_triangle(Triangle2D const &triangle, ColorRGB const &color) -> void;
 		auto render_triangle_filled(Triangle2D triangle, ColorRGB const &color) -> void;
 
