@@ -154,13 +154,27 @@ namespace BitGL
 		}
 	}
 	// Implemented via drawing two triangles
-	auto DrawWindow::render_rect_filled(Rect2D rect, ColorRGB color) -> void{
+	auto DrawWindow::render_rect_filled(Rect2D rect, ColorRGB const& color) -> void{
 		// {{x,y},{x+w,y},{x+w,y+h}} = right side of rect
 		Triangle2D right = {{{rect[0][0],rect[0][1]},{rect[0][0]+rect[1][0],rect[0][1]},rect[0]+rect[1]}};
 		// {{x,y},{x,y+h},{x+w,y+h}} = left side of rect
 		Triangle2D left = {{{rect[0][0],rect[0][1]},{rect[0][0],rect[0][1] + rect[1][1]},rect[0]+rect[1]}};
 		render_triangle_filled(right, color);
 		render_triangle_filled(left, color);
+	};
+	
+	size_t alib_2d_ar_pos(size_t pitch, size_t x, size_t y, size_t bytes_per_step = 4) {
+		return y * pitch + x * bytes_per_step;
+	}
+	// assumes bpp = 3. Param is unused.
+	auto DrawWindow::render_bmp(Point2D const& start, unsigned char* pixels, int w, int h, int bpp) -> void {
+		for (int iy = 0; iy < h; iy++) {
+			for (int ix = 0; ix < w; ix++) {
+				size_t offset = alib_2d_ar_pos(w*3, ix, iy, bpp);
+				unsigned char* pixel = pixels + offset;
+				m_colorbuffer[to_1d_index(start + Point2D{ix,iy}, get_size())] = RGB(*pixel, *(pixel+1), *(pixel+2));
+			}
+		}
 	};
 	auto DrawWindow::draw() -> void
 	{

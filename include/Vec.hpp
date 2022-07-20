@@ -23,6 +23,8 @@
 
 namespace BitGL
 {
+	template <typename T> constexpr T alib_max(T first, T second) {return (first < second) ? second : first;};
+	template <typename T> constexpr T alib_min(T first, T second) {return (first > second) ? second : first;};
 	namespace Vec
 	{
 		constexpr std::size_t x = 0;

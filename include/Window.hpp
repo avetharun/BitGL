@@ -37,7 +37,6 @@ namespace BitGL
 		auto restore()  noexcept -> void;
 		auto minimize() noexcept -> void;
 
-
 	public:
 		auto get_size() const noexcept -> Vec2<int>;
 
@@ -50,7 +49,6 @@ namespace BitGL
 
 		static auto poll_events() noexcept -> void;
 		static auto wait_events() noexcept -> void;
-
 
 	private:
 		static auto create_window_class(std::string const &name)                                        noexcept -> ATOM;

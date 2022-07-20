@@ -10,20 +10,18 @@
 
 #include "Vec.hpp"
 #include "DrawWindow.hpp"
-
-
-
-
-
+#define STB_IMAGE_IMPLEMENTATION
+#include "include_private/stb_image.h"
 
 auto main() -> int
 {
+	stbi_set_flip_vertically_on_load(true);
 	BitGL::DrawWindow window({ 800, 800 }, "BitGL");
 	window.restore();
 
-
+	int bpp, w,h;
+	unsigned char* pixels = stbi_load("test.bmp", &w, &h, &bpp, 3);
 	auto time_before = BitGL::Window::get_time();
-
 	while (window.is_open())
 	{
 		auto time_now = BitGL::Window::get_time();
@@ -31,12 +29,7 @@ auto main() -> int
 		time_before = time_now;
 
 		printf("T: %f\tFPS: %f\n", delta_time, 1 / delta_time);
-
-		window.clear_colorbuffer({ 0, 0, 0 });
-		unsigned char col = 128;
-		
-		window.render_rect_filled({{{128,128},{128, 128}}}, BitGL::ColorRGB{col,col,col});
-
+		window.render_bmp({0,0},pixels, w,h,3);
 		window.draw();
 
 		BitGL::Window::poll_events();
