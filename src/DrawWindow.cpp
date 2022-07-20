@@ -172,7 +172,7 @@ namespace BitGL
 			for (int ix = 0; ix < w; ix++) {
 				size_t offset = alib_2d_ar_pos(w*3, ix, iy, bpp);
 				unsigned char* pixel = pixels + offset;
-				m_colorbuffer[to_1d_index(start + Point2D{ix,iy}, get_size())] = RGB(*pixel, *(pixel+1), *(pixel+2));
+				m_colorbuffer[to_1d_index(start + Point2D{ix,iy}, get_size())] = RGB(*(pixel), *(pixel+1), *(pixel+2));
 			}
 		}
 	};
